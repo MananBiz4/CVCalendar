@@ -180,15 +180,19 @@ extension CVCalendarDayView {
                 color = appearance?.dayLabelPresentWeekdaySelectedTextColor
                 isSelected = true
             } else {
-                color = appearance?.dayLabelPresentWeekdayTextColor
-                if (appearance?.dayLabelPresentWeekdayInitallyBold!)! {
-                    font = appearance?.dayLabelPresentWeekdayBoldFont
+                if let selectedDayView = calendarView.coordinator.selectedDayView, selectedDayView.date.convertedDate() == date.convertedDate() {
+                    isSelected = true
                 } else {
-                    font = appearance?.dayLabelPresentWeekdayFont
+                    color = appearance?.dayLabelPresentWeekdayTextColor
+                    if (appearance?.dayLabelPresentWeekdayInitallyBold!)! {
+                        font = appearance?.dayLabelPresentWeekdayBoldFont
+                    } else {
+                        font = appearance?.dayLabelPresentWeekdayFont
+                    }
+                    isSelected = false
                 }
-                isSelected = false
             }
-        } else if let selectedDayView = calendarView.coordinator.selectedDayView, selectedDayView.date == date {
+        } else if let selectedDayView = calendarView.coordinator.selectedDayView, selectedDayView.date.convertedDate() == date.convertedDate() {
             isSelected = true
         } else {
             isSelected = false
