@@ -81,15 +81,19 @@ extension CVCalendarContentViewController {
         for weekV in presentedMonthView.weekViews {
             for dayView in weekV.dayViews {
                 removeCircleLabel(dayView)
-                dayView.dayLabel.removeFromSuperview()
-                dayView.labelSetup()
                 dayView.setupDotMarker()
                 dayView.preliminarySetup()
                 dayView.supplementarySetup()
                 dayView.topMarkerSetup()
                 dayView.interactionSetup()
+                dayView.dayLabel.removeFromSuperview()
+                dayView.labelSetup()
+                dayView.layoutSubviews()
+                dayView.layoutIfNeeded()
             }
         }
+        presentedMonthView.layoutSubviews()
+        presentedMonthView.layoutIfNeeded()
     }
 }
 
