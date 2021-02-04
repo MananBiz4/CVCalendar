@@ -163,11 +163,14 @@ extension CVCalendarDayView {
         
         var font: UIFont? = appearance?.dayLabelWeekdayFont
         var color: UIColor?
+        var isSelected = false
         
         if isDisabled {
             color = appearance?.dayLabelWeekdayDisabledColor
+            isSelected = false
         } else if isOut {
             color = appearance?.dayLabelWeekdayOutTextColor
+            isSelected = false
         } else if isCurrentDay {
             let coordinator = calendarView.coordinator
             if coordinator?.selectedDayView == nil && calendarView.shouldAutoSelectDayOnMonthChange {
@@ -175,6 +178,7 @@ extension CVCalendarDayView {
                 touchController?.receiveTouchOnDayView(self)
                 calendarView.didSelectDayView(self)
                 color = appearance?.dayLabelPresentWeekdaySelectedTextColor
+                isSelected = true
             } else {
                 color = appearance?.dayLabelPresentWeekdayTextColor
                 if (appearance?.dayLabelPresentWeekdayInitallyBold!)! {
@@ -182,9 +186,12 @@ extension CVCalendarDayView {
                 } else {
                     font = appearance?.dayLabelPresentWeekdayFont
                 }
+                isSelected = false
             }
-            
+        } else if let selectedDayView = calendarView.coordinator.selectedDayView, selectedDayView.date == date {
+            isSelected = true
         } else {
+            isSelected = false
             color = appearance?.dayLabelWeekdayInTextColor
         }
         
@@ -193,6 +200,7 @@ extension CVCalendarDayView {
         let status: CVStatus = {
             if isDisabled { return .disabled }
             else if isOut { return .out }
+            else if isSelected {return .selected}
             return .in
         }()
         let present: CVPresent = isCurrentDay
